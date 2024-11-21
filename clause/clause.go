@@ -3,7 +3,7 @@ package clause
 import "strings"
 
 type Clause struct {
-	sql     map[Type]string
+	sql     map[Type]string // 记录字符串
 	sqlVars map[Type][]interface{}
 }
 
@@ -16,9 +16,14 @@ const (
 	LIMIT
 	WHERE
 	ORDERBY
+	UPDATE
+	DELECT
+	COUNT
 )
 
 // Set ...
+// Set 将这个 name 和 vars  转化为字符串拼接
+//
 func (c *Clause) Set(name Type, vars ...interface{}) {
 	if c.sql == nil {
 		c.sql = make(map[Type]string)
@@ -41,5 +46,3 @@ func (c *Clause) Build(orders ...Type) (string, []interface{}) {
 	}
 	return strings.Join(sqls, " "), vars
 }
-
-
